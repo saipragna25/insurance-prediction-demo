@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewreport" content="width=device-width, intitial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="regstyle.css">
+    </head>
+    <body>
+        <div class="container">
+             <div class="title">Welcome To Insurance Premium Predictor</div><br>
+             
+               <div class="user-details">
+               <form method="post" accept-charset="utf-8">
+                 <div class="input-box">
+                    <span class="details">Age</span>
+                    <input type="text" id="age" name="age"  placeholder="Enter Age">
+                 </div>
+                 <div class="input-box">
+                    <span class="details">Gender</span>
+                    <select id="sex" name="sex" >
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                 </div>
+                 <div class="input-box">
+                    <span class="details">BMI Value</span>
+                    <input type="text" placeholder="Enter BMI"  id="bmi" name="bmi" >
+                 </div>
+                 <div class="input-box">
+                    <span class="details">Number Of Children</span>
+                    <input type="text"  id="children" name="children"  placeholder="Enter Number Of Children">
+                 </div>
+                 <div class="input-box">
+                    <span class="details">Smoker</span>
+                    <select name="smoker" id="smoker">
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                 </div>
+                 <div class="input-box">
+                    <span class="details">Select Region</span>
+                    <input type="text"  id="region" name="region"  placeholder="Enter Region">
+                 </div>
+               </form>
+
+               </div>
+                <button class="button" onclick="send_data()">
+                    "Predict Premium"
+                </button>
+             <div class="row">
+               <div class="col-12" style="text-align: center">
+                   <h3><span id="prediction"></span></h3>
+               </div>
+           </div>
+        </div>
+        <script>
+         function form_handler(event)
+         {
+             event.preventDefault();    
+         }
+ 
+         function send_data()
+         {
+             document.querySelector('form').addEventListener('submit', form_handler);
+ 
+             var fd = new FormData(document.querySelector('form'));
+ 
+             var xhr = new XMLHttpRequest();
+ 
+             xhr.open('post', 'http://127.0.0.1:5000/predict', true);
+             document.getElementById("prediction").innerHTML = "Wait! Predicting Premium..."
+ 
+             xhr.onreadystatechange = function()
+             {
+                 if(xhr.readyState == XMLHttpRequest.DONE)
+                 {
+                     document.getElementById("prediction").innerHTML = "Premium: " + xhr.responseText;
+                 }
+             }
+ 
+             xhr.onload = function(){};
+             xhr.send(fd);
+ 
+         }
+ 
+ 
+ 
+ 
+     </script>
+
+    </body>
+</html>
